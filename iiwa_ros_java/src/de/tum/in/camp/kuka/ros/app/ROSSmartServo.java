@@ -95,7 +95,8 @@ public class ROSSmartServo extends ROSBaseApplication {
   protected void addNodesToExecutor(NodeMainExecutor nodeMainExecutor) {
     subscriber = new iiwaSubscriber(robot, configuration.getRobotName(), configuration.getTimeProvider(),
         configuration.getEnforceMessageSequence());
-
+    
+    
     // Configure the callback for the SmartServo service inside the subscriber
     // class.
     subscriber
@@ -118,6 +119,7 @@ public class ROSSmartServo extends ROSBaseApplication {
                 }
               }
               else {
+ 
                 // We can just change the parameters if the control strategy is the same.
                 if (controlModeHandler.isSameControlMode(motion.getMode(), req.getControlMode())) {
                   // If the request was for PositionControlMode and we are already there, do nothing.
@@ -129,6 +131,9 @@ public class ROSSmartServo extends ROSBaseApplication {
                   motion = controlModeHandler.changeSmartServoControlMode(motion, req);
                 }
               }
+              
+              Logger.info("Into callback of change of mode ");
+              Logger.info("Mode has been changed from " + motion.getMode() + " to mode indexed with "+ req.getControlMode() );
 
               res.setSuccess(true);
               controlModeHandler.setLastSmartServoRequest(req);
@@ -374,7 +379,7 @@ public class ROSSmartServo extends ROSBaseApplication {
             }
           }
         });
-
+    
     // Execute the subscriber node.
     nodeMainExecutor.execute(subscriber, subscriberNodeConfiguration);
   }
@@ -432,6 +437,7 @@ public class ROSSmartServo extends ROSBaseApplication {
         }
       }
       else if (subscriber.currentCommandType != null) {
+  
         if (actionServer.hasCurrentGoal()) {
           actionServer.markCurrentGoalFailed("Received new Action command. Dropping old task.");
         }
@@ -494,6 +500,7 @@ public class ROSSmartServo extends ROSBaseApplication {
    * @param commandType
    */
   protected void activateMotionMode(CommandType commandType) {
+  
     if (commandType == lastCommandType) {
       if (commandType == CommandType.POINT_TO_POINT_CARTESIAN_SPLINE) {
         // For some reason the application gets stuck when executing two spline motions

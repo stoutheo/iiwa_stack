@@ -274,11 +274,15 @@ public abstract class ROSBaseApplication extends RoboticsAPIApplication {
     // Tool to attach, robot's flange will be used if no tool has been defined.
     String toolFromConfig = configuration.getToolName();
     if (!toolFromConfig.isEmpty()) {
-      Logger.info("Attaching tool " + toolFromConfig);
       tool = (Tool) getApplicationData().createFromTemplate(toolFromConfig);
+      
       tool.attachTo(robot.getFlange());
+      
       toolFrameID = toolFromConfig + toolFrameIDSuffix;
-      toolFrame = tool.getFrame("/" + toolFrameID);
+      
+//      toolFrame = tool.getFrame("/" + toolFrameID);
+      toolFrame = tool.getRootFrame();
+      Logger.info("Attaching tool " + toolFrame.getName());
     }
     else {
       Logger.info("No tool attached. Using robot's flange.");
