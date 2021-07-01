@@ -1,0 +1,28 @@
+
+
+rostopic pub -1 /iiwa/command/JointPosition iiwa_msgs/JointPosition -- '{position: {a1: 0.0, a2: 0.0, a3: 0.0, a4: 0.0, a5: 0.0, a6: 0.0, a7: 0.0}}'
+
+rostopic pub -1 /iiwa/action/move_to_joint_position/goal  iiwa_msgs/MoveToJointPositionActionGoal -- '{goal: {joint_position: {position: {a1: 0.0, a2: 0.0, a3: 0.0, a4: 0.0, a5: 0.0, a6: 0.0, a7: 0.0}}}}'
+
+rosparam set /iiwa/toolName MyVirtualGripper
+
+rosservice call /yang/configuration/ConfigureControlMode '{control_mode: 0 }'
+
+
+rosservice call /yang/configuration/setSmartServoLimits '{joint_relative_velocity: 0.5}'
+
+
+
+rosservice call /yang/configuration/ConfigureControlMode '{control_mode: 2, cartesian_impedance:{ cartesian_stiffness: {x: 1000, y: 1000, z: 1000, a: 300, b: 300, c: 300}}}'
+
+
+
+rosservice call /yang/configuration/ConfigureControlMode '{cartesian_impedance:{ cartesian_stiffness: {x: 1100, y: 1100, z: 1100, a: 300, b: 300, c: 300}}}'
+
+-------------------------------------------------------------------------------------------------
+
+./manual_move_iiwa_joint_position.py --robot_name yang --target_config 0 -30 0 -70 0 0 0
+
+rosrun iiwa_ros_py manual_move_iiwa_joint_position.py --robot_name yang --target_config 0 -0 0 -60 0 60 0
+
+rosrun iiwa_ros_py manual_move_iiwa_joint_position.py --robot_name yin --target_config 0 -0 0 -60 0 60 0

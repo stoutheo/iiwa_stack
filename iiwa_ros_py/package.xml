@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>iiwa_ros_py</name>
+  <version>0.0.1</version>
+  <description>The iiwa_ros_py package</description>
+  <author email="stoutheo@gmail.com">Theodoros Stouraitis</author>
+  <maintainer email="stoutheo@gmail.com">Theodoros Stouraitis</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>iiwa_msgs</depend>
+
+</package>
