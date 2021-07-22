@@ -15,7 +15,7 @@ rosservice call /yang/configuration/setSmartServoLimits '{joint_relative_velocit
 
 rosservice call /yang/configuration/ConfigureControlMode '{control_mode: 2, cartesian_impedance:{ cartesian_stiffness: {x: 1000, y: 1000, z: 1000, a: 300, b: 300, c: 300}}}'
 
-
+rosservice call /yin/configuration/ConfigureControlMode '{control_mode: 2, cartesian_impedance:{ cartesian_stiffness: {x: 1500, y: 1500, z: 1500, a: 300, b: 300, c: 300}, nullspace_stiffness: 200, nullspace_damping: 0.7}}
 
 rosservice call /yang/configuration/ConfigureControlMode '{cartesian_impedance:{ cartesian_stiffness: {x: 1100, y: 1100, z: 1100, a: 300, b: 300, c: 300}}}'
 
@@ -26,3 +26,11 @@ rosservice call /yang/configuration/ConfigureControlMode '{cartesian_impedance:{
 rosrun iiwa_ros_py manual_move_iiwa_joint_position.py --robot_name yang --target_config 0 -0 0 -60 0 60 0
 
 rosrun iiwa_ros_py manual_move_iiwa_joint_position.py --robot_name yin --target_config 0 -0 0 -60 0 60 0
+
+
+
+# to rerun
+
+rosrun topic_tools relay /vicon_offset/yin_frame/yin_frame /vicon_offset/yin_visual_frame/yin_visual_frame
+
+rosrun topic_tools relay /vicon_offset/yang_frame/yang_frame /vicon_offset/yang_visual_frame/yang_visual_frame
